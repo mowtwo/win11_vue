@@ -6,7 +6,7 @@
       :imgUrl="imgUrl(ap.description)"
       :displayMode="displayMode"
       :key="index"
-      @click="openApp"
+      @dblclick="openApp"
       :id="ap.description"
     ></Item>
     <NewItem
