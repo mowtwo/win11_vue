@@ -1,5 +1,5 @@
 <template>
-    <div 
+    <div
         class="bin floatTab dpShadow"
         :style="zIndex"
         :win-size="winSize"
@@ -7,150 +7,147 @@
         :win-hide="winHide"
     >
         <!-- 标题栏 -->
-        <div class="bin-toolbar">
+        <div class="bin-toolbar" @dblclick="clickMaxBtn">
             <!-- 图片与标题 -->
             <div class="bin-toolbar-icon">
-                <img width="16" src="../../assets/img/binIcons/computer.png"/>
+                <img width="16" src="../../assets/img/binIcons/computer.png" />
                 <span>此电脑</span>
             </div>
             <!-- 窗口按钮 -->
             <div class="bin-toolbar-actbtn">
                 <div @click="clickMinBtn">
-                    <img width="8" src="../../assets/img/appIcons/minimize.png"/>
+                    <img width="8" src="../../assets/img/appIcons/minimize.png" />
                 </div>
                 <div @click="clickMaxBtn">
-                    <img width="8" src="../../assets/img/appIcons/maximize.png"/>
+                    <img width="8" src="../../assets/img/appIcons/maximize.png" />
                 </div>
                 <div @click="clickCloseBtn">
-                    <img width="8" src="../../assets/img/appIcons/close.png"/>
+                    <img width="8" src="../../assets/img/appIcons/close.png" />
                 </div>
             </div>
         </div>
         <!-- 菜单栏 -->
         <div class="bin-menu">
             <div class="bin-menu-new">
-                <img width="16" src="../../assets/img/menuIcons/new.png"/>
+                <img width="16" src="../../assets/img/menuIcons/new.png" />
                 新建
-                <img width="8" src="../../assets/img/taskbarIcons/arrowdown.png"/>
+                <img width="8" src="../../assets/img/taskbarIcons/arrowdown.png" />
             </div>
             <div class="bin-menu-icon">
-                <img src="../../assets/img/menuIcons/binMenuBar.png"/>
+                <img src="../../assets/img/menuIcons/binMenuBar.png" />
             </div>
             <div class="bin-menu-func">
                 <div>
-                    <img width="16" src="../../assets/img/menuIcons/sort.png">
+                    <img width="16" src="../../assets/img/menuIcons/sort.png" />
                     排序
-                    <img width="8" src="../../assets/img/taskbarIcons/arrowdown.png"/>
+                    <img
+                        width="8"
+                        src="../../assets/img/taskbarIcons/arrowdown.png"
+                    />
                 </div>
                 <div>
-                    <img width="16" src="../../assets/img/menuIcons/check.png"/>
+                    <img width="16" src="../../assets/img/menuIcons/check.png" />
                     查看
-                    <img width="8" src="../../assets/img/taskbarIcons/arrowdown.png"/>
+                    <img
+                        width="8"
+                        src="../../assets/img/taskbarIcons/arrowdown.png"
+                    />
                 </div>
-                
             </div>
             <div class="bin-memu-other">
-                <img src="../../assets/img/menuIcons/binMenuOther.png">
+                <img src="../../assets/img/menuIcons/binMenuOther.png" />
             </div>
         </div>
         <!-- 主页面 -->
-            <div class="bin-main">
-                <div class="bin-main-searchBar">
-                    <div class="bin-main-navIcons">
-                        <img src="../../assets/img/binIcons/nav-icons.png"/>
+        <div class="bin-main">
+            <div class="bin-main-searchBar">
+                <div class="bin-main-navIcons">
+                    <img src="../../assets/img/binIcons/nav-icons.png" />
+                </div>
+                <div class="bin-main-history">
+                    <!-- 左侧图标 -->
+                    <div>
+                        <img width="16" src="../../assets/img/binIcons/computer.png" />
+                        <img width="8" src="../../assets/img/binIcons/shortArrowRight.png" />
+                        <span>此电脑</span>
                     </div>
-                    <div class="bin-main-history">
-                        <!-- 左侧图标 -->
-                        <div>
-                            <img width="16" src="../../assets/img/binIcons/computer.png"/>
-                            <img width="8" src="../../assets/img/binIcons/shortArrowRight.png"/>
-                            <span>此电脑</span>
-                        </div>
-                        <!-- 右侧图标 -->
-                        <div>
-                            <img src="../../assets/img/binIcons/bin-right.png"/>
-                        </div>
-                    </div>
-                    <div class="bin-main-search">
-                        <img width="15" src="../../assets/img/binIcons/search.png"/>
-                        <span>搜索"此电脑"</span>
+                    <!-- 右侧图标 -->
+                    <div>
+                        <img src="../../assets/img/binIcons/bin-right.png" />
                     </div>
                 </div>
-                <div class="bin-main-container">
-                    
-                    <div 
-                        class="bin-main-navBar"
-                        
-                    >
+                <div class="bin-main-search">
+                    <img width="15" src="../../assets/img/binIcons/search.png" />
+                    <span>搜索"此电脑"</span>
+                </div>
+            </div>
+            <div class="bin-main-container">
+                <div class="bin-main-navBar">
+                    <div v-for="(item,index) in list" :key="index">
+                        <div class="list-title" @click="handleListShow(index)">
+                            <img
+                                v-if="item.isShow"
+                                width="10"
+                                src="../../assets/img/binIcons/shortArrowDown.png"
+                            />
+                            <img
+                                v-if="!item.isShow"
+                                width="10"
+                                src="../../assets/img/binIcons/shortArrowRight.png"
+                            />
+                            <img width="16" v-bind:src="item.icon" />
+                            <span>{{ item.name }}</span>
+                        </div>
                         <div
-                            v-for="(item,index) in list"
-                            :key="index"                            
+                            class="list-content"
+                            v-for="(child,indexC) in list[index].children"
+                            :key="indexC"
+                            v-show="list[index].isShow"
                         >
-                            <div 
-                                class="list-title" 
-                                @click="handleListShow(index)"
-                            >
-                                <img v-if="item.isShow" width="10" src="../../assets/img/binIcons/shortArrowDown.png"/>
-                                <img v-if="!item.isShow" width="10" src="../../assets/img/binIcons/shortArrowRight.png"/>
-                                <img width="16" v-bind:src="item.icon"/>
-                                <span>{{item.name}}</span>
-                            </div>
-                            <div class="list-content"
-                                v-for="(child,indexC) in list[index].children"
-                                :key="indexC" 
-                                v-show="list[index].isShow"
-                            >
-                        
-                                <div>
-                                    <img width="18" v-bind:src="child.icon"/>
-                                    <span>{{child.name}}</span>
-                                </div>
+                            <div>
+                                <img width="18" v-bind:src="child.icon" />
+                                <span>{{ child.name }}</span>
                             </div>
                         </div>
-                        
                     </div>
-                    <div class="bin-main-content">
-                        <div class="floder">
-                            <div class="floder-title">
-                                <img width="10" src="../../assets/img/binIcons/ArrowGrey.png" />
-                                <span>文件夹(6)</span>
-                                <div ></div>
-                            </div>
-                            <div class="floder-content">
-                                <div
-                                    v-for="item,index in floder" 
-                                    :key="index"
-                                >
-                                    <img width="42" v-bind:src="item.icon"/>
-                                    <span>{{item.name}}</span>
-                                </div>                                
+                </div>
+                <div class="bin-main-content">
+                    <div class="floder">
+                        <div class="floder-title">
+                            <img width="10" src="../../assets/img/binIcons/ArrowGrey.png" />
+                            <span>文件夹(6)</span>
+                            <div></div>
+                        </div>
+                        <div class="floder-content">
+                            <div v-for="item,index in floder" :key="index">
+                                <img width="42" v-bind:src="item.icon" />
+                                <span>{{ item.name }}</span>
                             </div>
                         </div>
-                        <div class="device">
-                            <div class="device-title">
-                                <img width="10" src="../../assets/img/binIcons/ArrowGrey.png" />
-                                <span>设备和驱动器(4)</span>
-                                <div></div>
-                            </div>
-                            <div class="device-content">
-                                <div 
-                                    class="device-item"
-                                    v-for="item,index in device"
-                                    :key="index"
-                                >
-                                    <img width="45" v-bind:src="item.icon"/>
-                                    <div>
-                                        {{item.name}}
-                                        <img width="190" src="../../assets/img/binIcons/processBar.png">
-                                        <span>151 GB 可用, 共 280 GB</span>
-                                    </div>
-                                </div>                     
-                                
+                    </div>
+                    <div class="device">
+                        <div class="device-title">
+                            <img width="10" src="../../assets/img/binIcons/ArrowGrey.png" />
+                            <span>设备和驱动器(4)</span>
+                            <div></div>
+                        </div>
+                        <div class="device-content">
+                            <div class="device-item" v-for="item,index in device" :key="index">
+                                <img width="45" v-bind:src="item.icon" />
+                                <div>
+                                    {{ item.name }}
+                                    <img
+                                        width="190"
+                                        src="../../assets/img/binIcons/processBar.png"
+                                    />
+                                    <span>151 GB 可用, 共 280 GB</span>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
     </div>
 </template>
 <script>
@@ -162,7 +159,7 @@ export default {
         winHide: String, // 窗口是否隐藏：false 否 true 是
         zIndex: Object,
     },
-    data(){
+    data() {
         return {
             device: [
                 { name: "Windows(C:)", icon: require('../../assets/img/binIcons/cDisk.png'), },
@@ -246,21 +243,21 @@ export default {
                     icon: require('../../assets/img/binIcons/network.png'),
                     isShow: false,
                     children: null
-                }   
+                }
             ]
         }
     },
-            
+
     methods: {
-         // 标题栏按钮点击事件
+        // 标题栏按钮点击事件
         clickMinBtn() {
-        this.$emit("winStateChange", "computer", 1);
+            this.$emit("winStateChange", "computer", 1);
         },
         clickMaxBtn() {
-        this.$emit("winStateChange", "computer", 2)
+            this.$emit("winStateChange", "computer", 2)
         },
         clickCloseBtn() {
-        this.$emit("winStateChange", "computer", 0)
+            this.$emit("winStateChange", "computer", 0)
         },
 
         handleListShow(index) {
@@ -273,11 +270,10 @@ export default {
 @import "../../assets/scss/_window.scss";
 
 .bin {
-    --bg0: rgb(241,244,244);
+    --bg0: rgb(241, 244, 244);
     background: var(--bg0);
     font-size: 12px;
     color: #000;
-    
 }
 
 .bin-toolbar {
@@ -299,29 +295,29 @@ export default {
 }
 
 .bin-toolbar-actbtn {
-  height: 100%;
-  display: flex;
-  align-items: center;
-  position: absolute;
-  top: 0;
-  right: 0;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    position: absolute;
+    top: 0;
+    right: 0;
 }
 
 .bin-toolbar-actbtn div {
-  transition: all 60ms ease-out;
-  height: 100%;
-  padding: 0 14px;
-  display: grid;
-  place-items: center;
+    transition: all 60ms ease-out;
+    height: 100%;
+    padding: 0 14px;
+    display: grid;
+    place-items: center;
 }
 
 .bin-toolbar-actbtn div:nth-child(1):hover,
 .bin-toolbar-actbtn div:nth-child(2):hover {
-  background-color: rgba(212, 214, 216, 1);
+    background-color: rgba(212, 214, 216, 1);
 }
 
 .bin-toolbar-actbtn div:nth-child(3):hover {
-  background-color: rgb(255,65,65);
+    background-color: rgb(255, 65, 65);
 }
 
 .bin-menu {
@@ -367,7 +363,6 @@ export default {
     padding: 0 15px;
     border-right: solid 1px #e3e6e6;
     column-gap: 10px;
-
 }
 .bin-menu-func div {
     width: 70px;
@@ -382,7 +377,7 @@ export default {
 .bin-main {
     height: calc(100% - 86px);
     background-color: #fff;
-    box-shadow: -1px 0 1px rgba(0,0,0,0.4);
+    box-shadow: -1px 0 1px rgba(0, 0, 0, 0.4);
 }
 
 .bin-main-searchBar {
@@ -437,7 +432,6 @@ export default {
 }
 
 .bin-main-search {
-    
     height: 33px;
     width: 32%;
     border: solid 1px #d9d9d9;
@@ -446,7 +440,7 @@ export default {
     color: #878787;
 }
 
-.bin-main-search img{
+.bin-main-search img {
     padding: 10px;
 }
 
@@ -472,7 +466,7 @@ export default {
     width: 123px;
     padding-left: 35px;
 }
-.list-content div{
+.list-content div {
     display: flex;
     column-gap: 5px;
     height: 32px;
@@ -485,7 +479,8 @@ export default {
     padding: 10px;
     // background-color: red;
 }
-.floder-title, .device-title {
+.floder-title,
+.device-title {
     display: flex;
     align-items: center;
     column-gap: 5px;
@@ -498,14 +493,15 @@ export default {
     border: solid 1px #e5e5e5;
 }
 
-.floder-content, .device-content {
+.floder-content,
+.device-content {
     padding: 10px;
     display: flex;
     flex-flow: row wrap;
     column-gap: 10px;
     row-gap: 20px;
 }
-.floder-content div{
+.floder-content div {
     display: flex;
     align-items: flex-start;
     column-gap: 5px;

@@ -7,7 +7,7 @@
     :win-hide="winHide"
   >
   <!-- 标题栏 -->
-    <div class="toolbar">
+    <div class="toolbar" @click="clickMaxBtn">
       <!-- 标题信息 -->
       <div class="topInfo">
         <div class="icon" hidden>
